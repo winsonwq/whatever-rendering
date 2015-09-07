@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+require('rxrouter');
 const app = express();
 const logHelper = require('./utils/log');
 const logger = require('express-bunyan-logger');
