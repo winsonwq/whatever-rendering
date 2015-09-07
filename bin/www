@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+var app = require('../lib/app');
+
+var port = process.env.PORT || 9001;
+
+app.listen(port);
