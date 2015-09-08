@@ -2,7 +2,7 @@ import React from 'react';
 import App from '../components/app.react';
 
 export default {
-  view(clazz, props) {
+  view(path, clazz, props) {
 
     const innerViewFactory = React.createFactory(clazz);
     const innerReactHtml = React.renderToString(innerViewFactory(props));
@@ -13,7 +13,8 @@ export default {
       appFactory({
         viewName,
         reactHtml: innerReactHtml,
-        props
+        props,
+        path
       })
     );
 

@@ -1,4 +1,7 @@
 import React from 'react';
+// import RR from 'reactive-react';
+
+// import TodoListStore from '../stores/todo-list.store';
 
 class TodoListApp extends React.Component {
 
@@ -7,8 +10,16 @@ class TodoListApp extends React.Component {
     this.state = { todos: props.todos, text: '' };
   }
 
+  componentDidMount() {
+    // RR.subscribe(TodoListStore, { todos$: 'todosChange' });
+  }
+
   componentWillReceiveProps(nextProps) {
     this.setState({ todos: nextProps.todos });
+  }
+
+  todosChange(data) {
+    this.setState({ todos: data.todos });
   }
 
   handleSubmit(evt) {
