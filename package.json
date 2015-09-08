@@ -4,7 +4,9 @@
   "description": "what a isomorephic look like",
   "main": "index.js",
   "scripts": {
-    "dev": "./scripts/dev.sh"
+    "dev": "./scripts/dev.sh",
+    "pbundle": "./scripts/partition-bundle.sh",
+    "wbundle": "./scripts/partition-bundle-watch.sh"
   },
   "keywords": [],
   "author": "Wang Qiu <winsonwq@gmail.com> (http://slender-man.github.io/)",
@@ -40,6 +42,7 @@
     "nib": "^1.1.0",
     "nodemon": "^1.4.1",
     "normalize.css": "^3.0.3",
+    "partition-bundle": "^2.2.0",
     "sqwish": "^0.2.2",
     "stylus": "^0.52.4",
     "uglify-js": "^2.4.24",
@@ -55,5 +58,4 @@
     "react": "global:React",
     "rx": "global:Rx"
   }
-
 }

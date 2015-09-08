@@ -5,7 +5,7 @@ export default {
 
     const factory = React.createFactory(clazz);
     const reactHtml = React.renderToString(factory(props));
-    const viewName = dashify(factory.type.displayName);
+    const viewName = dashify(clazz.displayName);
 
     return {
       props,
