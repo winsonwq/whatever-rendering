@@ -5,17 +5,11 @@ export default {
   view(path, clazz, props) {
 
     const innerViewFactory = React.createFactory(clazz);
-    const innerReactHtml = React.renderToString(innerViewFactory(props));
     const viewName = dashify(clazz.displayName);
 
     const appFactory = React.createFactory(App);
     const reactHtml = React.renderToString(
-      appFactory({
-        viewName,
-        reactHtml: innerReactHtml,
-        props,
-        path
-      })
+      appFactory({ path }, innerViewFactory(props))
     );
 
     return {

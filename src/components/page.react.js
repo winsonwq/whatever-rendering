@@ -7,20 +7,39 @@ class Page extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { defaultReactHtml: props.defaultReactHtml };
+    this.state = {};
   }
 
   componentDidMount() {
-    RouterStore.route$.subscribe(this.routeChange);
+    RouterStore.route$.subscribe(this.routeChange.bind(this));
   }
 
   routeChange(route) {
-    console.log(route);
+    // TODO: director bug
+    if (!this.state.first) {
+      this.setState({ first: true });
+    } else {
+      var { viewName, reactHtml, props } = route;
+      this.setState({ viewName, reactHtml, props });
+    }
+  }
+
+  loadAndSetComponent() {
+    var state = this.state;
+    if (!state.reactHtml) {
+      global.loadjs([state.viewName], function(component) {
+        this.setState({ component });
+      }.bind(this));
+    }
   }
 
   render() {
+    var { children } = this.props;
+
     return (
-      <div dangerouslySetInnerHTML={{ __html: this.state.defaultReactHtml }}></div>
+      <div>
+        { children }
+      </div>
     );
   }
 

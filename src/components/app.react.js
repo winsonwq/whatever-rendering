@@ -7,24 +7,17 @@ class App extends React.Component {
 
   constructor(appProps) {
     super(appProps);
-    var { viewName, reactHtml, props, path } = appProps;
-
-    this.state = {
-      viewName,
-      reactHtml,
-      props,
-      path
-    };
   }
 
   render() {
-    var { reactHtml, path } = this.state;
+    var { children, path } = this.props;
 
     return (
-      <div className="app">
-        <h1>App Loaded</h1>
+      <div>
         <Router defaultPath={ path }/>
-        <Page defaultReactHtml={ reactHtml } />
+        <Page>
+          { children }
+        </Page>
       </div>
     );
   }

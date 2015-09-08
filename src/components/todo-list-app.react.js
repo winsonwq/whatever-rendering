@@ -1,17 +1,11 @@
 import React from 'react';
 // import RR from 'reactive-react';
 
-// import TodoListStore from '../stores/todo-list.store';
-
 class TodoListApp extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = { todos: props.todos, text: '' };
-  }
-
-  componentDidMount() {
-    // RR.subscribe(TodoListStore, { todos$: 'todosChange' });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,8 +36,8 @@ class TodoListApp extends React.Component {
         <ul>
           { todoItems }
         </ul>
-        <form onSubmit={ this.handleSubmit }>
-          <input onChange={ this.handleTextChange } value={ this.state.text } />
+        <form onSubmit={ this.handleSubmit.bind(this) }>
+          <input type="text" onChange={ this.handleTextChange.bind(this) } defaultVaue={ this.state.text }/>
           <button>{'Add #' + (this.state.todos.length + 1)}</button>
         </form>
       </div>
