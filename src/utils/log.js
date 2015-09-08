@@ -7,5 +7,6 @@ var logConfig = {
   ]
 };
 
-exports.logConfig = logConfig;
-exports.log = bunyan.createLogger(logConfig);
+var log = bunyan.createLogger(logConfig);
+
+module.exports = { logConfig, log };

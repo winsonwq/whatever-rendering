@@ -1,16 +1,21 @@
-const express = require('express');
-const path = require('path');
-require('rxrouter');
+import express from 'express';
+import path from 'path';
+import {} from 'rxrouter';
+import compression from 'compression';
+import logger from 'express-bunyan-logger';
+import { logConfig } from './utils/log';
+import router from './routes/';
+import {} from './routes/routes-hanlder';
+
 const app = express();
-const logHelper = require('./utils/log');
-const logger = require('express-bunyan-logger');
-const compression = require('compression');
 
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
 app.use(compression());
-app.use(logger(logHelper.logConfig));
+app.use(logger(logConfig));
 app.use(express.static(path.join(__dirname, '../public')));
 
-module.exports = app;
+app.use(router);
+
+export default app;
