@@ -1,4 +1,4 @@
 {
   "client.js": ["./src/client.js:client"],
-  "todo-list-app.js": ["./src/components/todo-list-app.jsx:todo-list-app"]
+  "todo-list-app.js": ["./src/components/todo-list-app.react.js:todo-list-app"]
 }

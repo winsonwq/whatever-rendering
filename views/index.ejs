@@ -13,8 +13,13 @@
     <div id="react-html-container">
       <%- reactHtml %>
     </div>
-    <script src="//cdn.bootcss.com/react/0.13.3/react.min.js" defer></script>
-    <script src="//cdn.bootcss.com/rxjs/3.1.2/rx.lite.min.js" defer></script>
-    <script src="/entries/client.js" defer></script>
+    <script src="//cdn.bootcss.com/react/0.13.3/react.js"></script>
+    <script src="//cdn.bootcss.com/rxjs/3.1.2/rx.lite.min.js"></script>
+    <script src="/entries/client.js"></script>
+    <script>
+      this.props = JSON.parse('<%- propsStr %>');
+      this.viewName = '<%= viewName %>';
+      loadjs(['client']);
+    </script>
   </body>
 </html>

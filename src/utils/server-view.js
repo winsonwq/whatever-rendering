@@ -1,17 +1,29 @@
 import React from 'react';
+import App from '../components/app.react';
 
 export default {
   view(clazz, props) {
 
-    const factory = React.createFactory(clazz);
-    const reactHtml = React.renderToString(factory(props));
+    const innerViewFactory = React.createFactory(clazz);
+    const innerReactHtml = React.renderToString(innerViewFactory(props));
     const viewName = dashify(clazz.displayName);
 
+    const appFactory = React.createFactory(App);
+    const reactHtml = React.renderToString(
+      appFactory({
+        viewName,
+        reactHtml: innerReactHtml,
+        props
+      })
+    );
+
     return {
-      props,
+      reactHtml,
       viewName,
-      reactHtml
+      props,
+      propsStr: JSON.stringify(props).replace(/\\/g, '\\\\')
     };
+
   }
 
 };

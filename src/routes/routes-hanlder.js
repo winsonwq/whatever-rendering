@@ -2,7 +2,7 @@
 import { root$ } from './index';
 import { view } from '../utils/server-view';
 import action from '../actions/';
-import TodoListApp from '../components/todo-list-app';
+import TodoListApp from '../components/todo-list-app.react';
 
 root$
   .flatMapLatest(function(route) {
