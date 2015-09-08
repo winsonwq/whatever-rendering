@@ -41,4 +41,6 @@ class TodoListApp extends React.Component {
 
 }
 
+TodoListApp.displayName = 'TodoListApp';
+
 export default TodoListApp;

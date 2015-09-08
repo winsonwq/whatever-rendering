@@ -1,10 +1,9 @@
-import React from 'react';
 
 import { root$ } from './index';
+import { view } from '../utils/server-view';
 import action from '../actions/';
 import TodoListApp from '../components/todo-list-app';
 
-const TodoListAppFactory = React.createFactory(TodoListApp);
 
 root$
   .flatMapLatest(function(route) {
@@ -13,8 +12,7 @@ root$
   .subscribe(function(data) {
 
     var { res } = data.route;
-    var reactHtml = React.renderToString(TodoListAppFactory({ todos: data.todos }));
+    var sView = view(TodoListApp, { todos: data.todos });
+    res.render('index', sView);
 
-    res.render('index', { reactHtml });
-    
   });

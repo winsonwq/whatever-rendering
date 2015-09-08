@@ -44,5 +44,16 @@
     "stylus": "^0.52.4",
     "uglify-js": "^2.4.24",
     "watchify": "^3.4.0"
+  },
+  "browserify": {
+    "transform": [
+      "babelify",
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "react": "global:React",
+    "rx": "global:Rx"
   }
+
 }
