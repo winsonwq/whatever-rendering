@@ -10,8 +10,8 @@ root$
   })
   .subscribe(function(data) {
 
-    var { res, req } = data.route;
-    var sView = view(req._parsedUrl.path, TodoListApp, { todos: data.todos });
+    var { res } = data.route;
+    var sView = view(TodoListApp, { todos: data.todos });
     res.render('index', sView);
 
   });

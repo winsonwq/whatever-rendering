@@ -3,8 +3,12 @@ import Rx from 'rx';
 
 export default RR.Observable.createAction({
 
-  route$(root$) {
-    return Rx.Observable.merge(root$);
+  route$(root$, readme$, linkRedirect$) {
+    return Rx.Observable.merge(
+      root$,
+      readme$,
+      linkRedirect$
+    );
   }
 
 });

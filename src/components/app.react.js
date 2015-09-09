@@ -5,19 +5,17 @@ import Page from './page.react';
 
 class App extends React.Component {
 
-  constructor(appProps) {
-    super(appProps);
+  constructor(props) {
+    super(props);
   }
 
   render() {
-    var { children, path } = this.props;
+    var { view, props } = this.props;
 
     return (
       <div>
-        <Router defaultPath={ path }/>
-        <Page>
-          { children }
-        </Page>
+        <Router />
+        <Page defaultView={ view } defaultProps={ props }/>
       </div>
     );
   }

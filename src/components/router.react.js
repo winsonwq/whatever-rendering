@@ -8,27 +8,27 @@ import RouterStore from '../stores/router.store';
 
 import Browser from '../utils/browser';
 
-const router = new director.Router();
+const router = global.router = new director.Router();
 const observableRoute = observableFromCallback(router.on.bind(router));
 
 class Router extends React.Component {
 
   constructor(props) {
     super(props);
-    var { defaultPath } = props;
-    this.state = { defaultPath };
   }
 
   componentDidMount() {
     RouterStore.route$.subscribe(this.routeChange);
 
     Router.route('root$', '/', 'todo-list-app');
+    Router.route('readme$', '/readme', 'readme');
 
     router.configure({
-      html5history: true
+      html5history: true,
+      run_handler_in_init: false
     });
 
-    router.init(this.state.defaultPath);
+    router.init();
   }
 
   routeChange(route) {

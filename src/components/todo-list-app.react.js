@@ -1,15 +1,15 @@
 import React from 'react';
-// import RR from 'reactive-react';
+import Link from './link.react';
 
 class TodoListApp extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { todos: props.todos, text: '' };
+    this.state = { todos: props.todos || [], text: '' };
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ todos: nextProps.todos });
+    this.setState({ todos: nextProps.todos || [] });
   }
 
   todosChange(data) {
@@ -40,6 +40,7 @@ class TodoListApp extends React.Component {
           <input type="text" onChange={ this.handleTextChange.bind(this) } defaultVaue={ this.state.text }/>
           <button>{'Add #' + (this.state.todos.length + 1)}</button>
         </form>
+        <Link path="/readme">Readme</Link>
       </div>
     );
   }

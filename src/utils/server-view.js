@@ -2,14 +2,14 @@ import React from 'react';
 import App from '../components/app.react';
 
 export default {
-  view(path, clazz, props) {
+  view(clazz, props) {
 
-    const innerViewFactory = React.createFactory(clazz);
+    // const innerViewFactory = React.createFactory(clazz);
     const viewName = dashify(clazz.displayName);
 
     const appFactory = React.createFactory(App);
     const reactHtml = React.renderToString(
-      appFactory({ path }, innerViewFactory(props))
+      appFactory({ view: clazz, props })
     );
 
     return {

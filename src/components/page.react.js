@@ -1,5 +1,4 @@
 import React from 'react';
-import RR from 'reactive-react';
 
 import RouterStore from '../stores/router.store';
 
@@ -7,7 +6,7 @@ class Page extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { view: props.defaultView, props: props.defaultProps };
   }
 
   componentDidMount() {
@@ -15,30 +14,24 @@ class Page extends React.Component {
   }
 
   routeChange(route) {
-    // TODO: director bug
-    if (!this.state.first) {
-      this.setState({ first: true });
-    } else {
-      var { viewName, reactHtml, props } = route;
-      this.setState({ viewName, reactHtml, props });
-    }
+    var { viewName, props } = route;
+    this.loadAndSetView(viewName, props);
   }
 
-  loadAndSetComponent() {
-    var state = this.state;
-    if (!state.reactHtml) {
-      global.loadjs([state.viewName], function(component) {
-        this.setState({ component });
+  loadAndSetView(viewName, props) {
+    if (viewName) {
+      global.loadjs([viewName], function(view) {
+        this.setState({ view, props: props || {} });
       }.bind(this));
     }
   }
 
   render() {
-    var { children } = this.props;
+    var { view, props } = this.state;
 
     return (
       <div>
-        { children }
+        { React.createFactory(view)(props) }
       </div>
     );
   }
