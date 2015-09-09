@@ -16,7 +16,9 @@ export default RR.Observable.createStore(
         };
       });
 
-    var todos$ = resetTodos$.scan(data, (sofar, transform) => transform(sofar));
+    var todos$ = resetTodos$.scan(function(sofar, transform) {
+      return transform(sofar);
+    }, data);
 
     return { todos$ };
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from './link.react';
 
+import TodoListStore from '../stores/todo-list.store';
+
 class TodoListApp extends React.Component {
 
   constructor(props) {
@@ -8,8 +10,8 @@ class TodoListApp extends React.Component {
     this.state = { todos: props.todos || [], text: '' };
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ todos: nextProps.todos || [] });
+  componentDidMount() {
+    TodoListStore.todos$.subscribe(this.todosChange.bind(this));
   }
 
   todosChange(data) {
