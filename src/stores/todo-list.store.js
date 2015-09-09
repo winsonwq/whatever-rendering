@@ -1,10 +1,11 @@
 import RR from 'reactive-react';
+import Rx from 'rx';
 
 import Action from '../actions/';
 
 export default RR.Observable.createStore(
-  Action, ['fetchTodos$'],
-  function(fetchTodos$) {
+  Action, ['fetchTodos$', 'todoAddedSuccessBody$'],
+  function(fetchTodos$, todoAddedSuccessBody$) {
 
     var data = { todos: [] };
 
@@ -16,9 +17,21 @@ export default RR.Observable.createStore(
         };
       });
 
-    var todos$ = resetTodos$.scan(function(sofar, transform) {
-      return transform(sofar);
-    }, data);
+    var addTodo$ = todoAddedSuccessBody$
+      .map(function(todo) {
+        return function(sofar) {
+          sofar.todos = sofar.todos.concat([todo]);
+          return sofar;
+        };
+      });
+
+    var todos$ = Rx.Observable
+      .merge(
+        resetTodos$,
+        addTodo$
+      ).scan(function(sofar, transform) {
+        return transform(sofar);
+      }, data);
 
     return { todos$ };
 

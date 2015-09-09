@@ -1,7 +1,10 @@
 import React from 'react';
+import RR from 'reactive-react';
 import Link from './link.react';
 
 import TodoListStore from '../stores/todo-list.store';
+
+const submitTodo$ = RR.Observable.bind('submitTodo$');
 
 class TodoListApp extends React.Component {
 
@@ -20,6 +23,8 @@ class TodoListApp extends React.Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
+    submitTodo$({ text: this.state.text });
+    this.setState({ text: '' });
   }
 
   handleTextChange(evt) {
@@ -39,7 +44,7 @@ class TodoListApp extends React.Component {
           { todoItems }
         </ul>
         <form onSubmit={ this.handleSubmit.bind(this) }>
-          <input type="text" onChange={ this.handleTextChange.bind(this) } defaultVaue={ this.state.text }/>
+          <input type="text" onChange={ this.handleTextChange.bind(this) } value={ this.state.text }/>
           <button>{'Add #' + (this.state.todos.length + 1)}</button>
         </form>
         <Link path="/readme">Readme</Link>
