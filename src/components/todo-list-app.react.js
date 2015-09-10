@@ -14,7 +14,12 @@ class TodoListApp extends React.Component {
   }
 
   componentDidMount() {
-    TodoListStore.todos$.subscribe(this.todosChange.bind(this));
+    var todoDisposable = TodoListStore.todos$.subscribe(this.todosChange.bind(this));
+    this.setState({ todoDisposable });
+  }
+
+  componentWillUnmount() {
+    this.state.todoDisposable.dispose();
   }
 
   todosChange(data) {

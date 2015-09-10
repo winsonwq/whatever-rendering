@@ -1,6 +1,10 @@
 import React from 'react';
+import RR from 'reactive-react';
 
+import { noErrCallbackPromisify } from '../utils/promisify';
 import RouterStore from '../stores/router.store';
+
+const pageDidRender$ = RR.Observable.bind('pageDidRender$');
 
 class Page extends React.Component {
 
@@ -15,15 +19,17 @@ class Page extends React.Component {
 
   routeChange(route) {
     var { viewName, props } = route;
-    this.loadAndSetView(viewName, props);
-  }
-
-  loadAndSetView(viewName, props) {
     if (viewName) {
-      global.loadjs([viewName], function(view) {
+      this.loadView(viewName).then(function(view) {
         this.setState({ view, props: props || {} });
+        // render cycle 2
+        pageDidRender$({ view, route });
       }.bind(this));
     }
+  }
+
+  loadView(viewName) {
+    return noErrCallbackPromisify(global.loadjs)([viewName]).then(ret => ret[0]);
   }
 
   render() {

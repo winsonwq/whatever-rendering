@@ -37,7 +37,7 @@ class Router extends React.Component {
     } else if (route.replace) {
       // TODO: use replace state
       window.location.replace(route.path);
-    } else if (!route.viewName){
+    } else if (!route.name){
       router.setRoute(route.path);
     }
   }
@@ -49,6 +49,7 @@ class Router extends React.Component {
 Router.route = function(name, path, viewName, viewInfo) {
   var observableRoute$ = observableRoute(path).map(function(paramVals) {
     return {
+      name,
       path: Browser.path(),
       viewName,
       params: R.merge(R.zipObj(getParamKeysFromPath(path), paramVals), viewInfo),

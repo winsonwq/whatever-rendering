@@ -1,10 +1,11 @@
 import RR from 'reactive-react';
 import Service from '../services/service';
+import RouterAction from './router.action';
 
 export default RR.Observable.createAction({
 
-  fetchTodos$(root$) {
-    return root$.flatMapLatest(() => Service.getTodos());
+  fetchTodos$() {
+    return RouterAction.mergedRoot$.flatMapLatest(() => Service.getTodos());
   },
 
   todoAdded$(submitTodo$) {

@@ -9,6 +9,14 @@ export default RR.Observable.createAction({
       readme$,
       linkRedirect$
     );
+  },
+
+  mergedRoot$(root$, pageDidRender$) {
+    return filterByRoute(pageDidRender$, 'root$').merge(root$);
   }
 
 });
+
+function filterByRoute(stream, routeName) {
+  return stream.filter(({ route }) => route.name == routeName);
+}
