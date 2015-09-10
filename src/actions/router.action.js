@@ -12,7 +12,7 @@ export default RR.Observable.createAction({
     );
   },
 
-  mergedRoot$(root$, pageDidRender$) {
+  Root$(root$, pageDidRender$) {
     return filterByRoute(pageDidRender$, 'root$').merge(root$);
   }
 

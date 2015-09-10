@@ -5,7 +5,7 @@ import RouterAction from './router.action';
 export default RR.Observable.createAction({
 
   fetchTodos$() {
-    return RouterAction.mergedRoot$
+    return RouterAction.Root$
       .flatMapLatest(() => Service.getTodos());
   },
 

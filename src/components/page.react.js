@@ -1,6 +1,5 @@
 import React from 'react';
 import RR from 'reactive-react';
-import R from 'ramda';
 
 import { noErrCallbackPromisify } from '../utils/promisify';
 import RouterStore from '../stores/router.store';
@@ -34,7 +33,7 @@ class Page extends React.Component {
           trigger the second render cycle to reuse action logic when the compoent first load
         */
         if (loadedViews.indexOf(viewName) == -1) {
-          pageDidRender$({ view, route });
+          pageDidRender$({ view, props, route });
           this.setState({ loadedViews: loadedViews.concat([viewName]) });
         }
 
