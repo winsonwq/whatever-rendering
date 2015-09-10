@@ -1,6 +1,7 @@
 import RR from 'reactive-react';
 import Rx from 'rx';
-import R from 'ramda';
+
+import routes from '../routes/routes-config';
 
 export default RR.Observable.createAction({
 
@@ -20,15 +21,22 @@ export default RR.Observable.createAction({
   // asyncViewDidRender$ would trigger actions and stors to fill the view state
   //
   Root$(root$, asyncViewDidRender$) {
-    return filterByRouteName(asyncViewDidRender$, 'root$').merge(root$);
+    return asyncViewDidRender$.filter(byRouteNameWhen('root$')).merge(root$);
   },
 
   InitAsRoot$(landingViewDidRender$) {
-    return landingViewDidRender$.filter(({ viewName }) => viewName == 'todo-list-app');
+    return landingViewDidRender$.filter(byViewNameWhen('root$', routes));
   }
 
 });
 
-function filterByRouteName(stream, routeName) {
-  return stream.filter(({ route }) => route.name == routeName).map(R.prop('route'));
+function byRouteNameWhen(routeName) {
+  return ({ route }) => route.name == routeName;
+}
+
+function byViewNameWhen(routeName, source = []) {
+  return function({ viewName }) {
+    var target = source.filter(route => route.name == routeName)[0] || {};
+    return viewName == target.viewName;
+  };
 }

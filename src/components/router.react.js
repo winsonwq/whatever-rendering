@@ -4,6 +4,8 @@ import director from 'director';
 import R from 'ramda';
 import Rx from 'rx';
 
+import routes from '../routes/routes-config';
+
 import RouterStore from '../stores/router.store';
 
 import Browser from '../utils/browser';
@@ -20,8 +22,10 @@ class Router extends React.Component {
   componentDidMount() {
     RouterStore.route$.subscribe(this.routeChange.bind(this));
 
-    Router.route('root$', '/', 'todo-list-app');
-    Router.route('readme$', '/readme', 'readme');
+    // only get method need to be registered
+    routes
+      .filter(({ method }) => method == 'get')
+      .forEach(({ path, name, viewName }) => Router.route(name, path, viewName));
 
     router.configure({
       html5history: true,

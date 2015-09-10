@@ -1,11 +1,11 @@
 
-import { root$, readme$ } from './index';
+import { routes } from './index';
 import { view } from '../utils/server-view';
 import action from '../actions/';
 import TodoListApp from '../components/todo-list-app.react';
 import Readme from '../components/readme.react';
 
-root$
+routes.root$
   .flatMapLatest(function(route) {
     return action.fetchTodos$.map(todos => ({ todos, route }));
   })
@@ -17,7 +17,7 @@ root$
 
   });
 
-readme$
+routes.readme$
   .subscribe(function(route) {
     var { res } = route;
     var sView = view(Readme);

@@ -1,11 +1,15 @@
 import express from 'express';
 import RR from 'reactive-react';
+import routesConfig from './routes-config';
 
-var router = express.Router();
-
-const root$ = RR.replicate(router.rxGet('/'), 'root$');
-const readme$ = RR.replicate(router.rxGet('/readme'), 'readme$');
+const router = express.Router();
+const rxMethods = { get: 'rxGet' };
 
 export default router;
 
-export { root$, readme$ };
+export var routes = routesConfig
+  .reduce(function(sofar, rconfig) {
+    var { method, path, name } = rconfig;
+    sofar[name] = RR.replicate(router[rxMethods[method]](path), name);
+    return sofar;
+  }, {});
