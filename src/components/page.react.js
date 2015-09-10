@@ -22,7 +22,9 @@ class Page extends React.Component {
     if (viewName) {
       this.loadView(viewName).then(function(view) {
         this.setState({ view, props: props || {} });
-        // render cycle 2
+        /*
+          trigger the second render cycle to reuse action logic
+        */
         pageDidRender$({ view, route });
       }.bind(this));
     }
