@@ -8,7 +8,7 @@ export default {
 
     const appFactory = React.createFactory(App);
     const reactHtml = React.renderToString(
-      appFactory({ view: clazz, props })
+      appFactory({ view: clazz, props, viewName })
     );
 
     return {

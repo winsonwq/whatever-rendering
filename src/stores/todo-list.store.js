@@ -17,11 +17,10 @@ export default RR.Observable.createStore(
         };
       });
 
-
     var addTodo$ = todoAddedSuccessBody$
       .map(function(todo) {
         return function(sofar) {
-          sofar.todos.push(todo);
+          sofar.todos = sofar.todos.concat([todo]);
           return sofar;
         };
       });

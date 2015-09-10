@@ -10,12 +10,12 @@ class App extends React.Component {
   }
 
   render() {
-    var { view, props } = this.props;
+    var { view, props, viewName } = this.props;
 
     return (
       <div>
         <Router />
-        <Page defaultView={ view } defaultProps={ props }/>
+        <Page defaultViewName={ viewName } defaultView={ view } defaultProps={ props }/>
       </div>
     );
   }

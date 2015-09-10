@@ -14,12 +14,12 @@ class TodoListApp extends React.Component {
   }
 
   componentDidMount() {
-    var todoDisposable = TodoListStore.todos$.subject.subscribe(this.todosChange.bind(this));
+    var todoDisposable = TodoListStore.todos$.subscribe(this.todosChange.bind(this));
     this.setState({ todoDisposable });
   }
 
   componentWillUnmount() {
-    // this.state.todoDisposable.subject.dispose();
+    this.state.todoDisposable.dispose();
   }
 
   todosChange(data) {

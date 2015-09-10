@@ -1,5 +1,6 @@
 import RR from 'reactive-react';
 import Rx from 'rx';
+import R from 'ramda';
 
 export default RR.Observable.createAction({
 
@@ -18,5 +19,5 @@ export default RR.Observable.createAction({
 });
 
 function filterByRoute(stream, routeName) {
-  return stream.filter(({ route }) => route.name == routeName);
+  return stream.filter(({ route }) => route.name == routeName).map(R.prop('route'));
 }

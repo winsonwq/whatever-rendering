@@ -1,5 +1,6 @@
 import React from 'react';
 import RR from 'reactive-react';
+import R from 'ramda';
 
 import { noErrCallbackPromisify } from '../utils/promisify';
 import RouterStore from '../stores/router.store';
@@ -10,7 +11,11 @@ class Page extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { view: props.defaultView, props: props.defaultProps };
+    this.state = {
+      view: props.defaultView,
+      props: props.defaultProps,
+      loadedViews: [props.defaultViewName]
+    };
   }
 
   componentDidMount() {
@@ -19,13 +24,20 @@ class Page extends React.Component {
 
   routeChange(route) {
     var { viewName, props } = route;
-    if (viewName) {
+    var { currentViewName, loadedViews } = this.state;
+
+    if (viewName && currentViewName != viewName) {
       this.loadView(viewName).then(function(view) {
-        this.setState({ view, props: props || {} });
+        this.setState({ view, props, currentViewName: viewName });
         /*
-          trigger the second render cycle to reuse action logic
+          TODO: find one time render solution
+          trigger the second render cycle to reuse action logic when the compoent first load
         */
-        pageDidRender$({ view, route });
+        if (loadedViews.indexOf(viewName) == -1) {
+          pageDidRender$({ view, route });
+          this.setState({ loadedViews: loadedViews.concat([viewName]) });
+        }
+
       }.bind(this));
     }
   }
