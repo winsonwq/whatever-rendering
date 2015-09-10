@@ -8,7 +8,7 @@ import RouterStore from '../stores/router.store';
 
 import Browser from '../utils/browser';
 
-const router = global.router = new director.Router();
+const router = new director.Router();
 const observableRoute = observableFromCallback(router.on.bind(router));
 
 class Router extends React.Component {
@@ -18,7 +18,7 @@ class Router extends React.Component {
   }
 
   componentDidMount() {
-    RouterStore.route$.subscribe(this.routeChange);
+    RouterStore.route$.subscribe(this.routeChange.bind(this));
 
     Router.route('root$', '/', 'todo-list-app');
     Router.route('readme$', '/readme', 'readme');
