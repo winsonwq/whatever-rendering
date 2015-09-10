@@ -4,12 +4,12 @@ import Rx from 'rx';
 import Action from '../actions/';
 
 export default RR.Observable.createStore(
-  Action, ['fetchTodos$', 'todoAddedSuccessBody$'],
-  function(fetchTodos$, todoAddedSuccessBody$) {
+  Action, ['fillTodos$', 'todoAddedSuccessBody$'],
+  function(fillTodos$, todoAddedSuccessBody$) {
 
     var data = { todos: [] };
 
-    var resetTodos$ = fetchTodos$
+    var resetTodos$ = fillTodos$
       .map(function(todos) {
         return function(sofar) {
           sofar.todos = todos;

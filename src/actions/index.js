@@ -9,6 +9,14 @@ export default RR.Observable.createAction({
       .flatMapLatest(() => Service.getTodos());
   },
 
+  initTodos$() {
+    return RouterAction.InitAsRoot$.map(({ props }) => props.todos);
+  },
+
+  fillTodos$() {
+    return this.fetchTodos$.merge(this.initTodos$);
+  },
+
   todoAdded$(submitTodo$) {
     return submitTodo$
       .flatMapLatest(function(data) {

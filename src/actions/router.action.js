@@ -12,12 +12,23 @@ export default RR.Observable.createAction({
     );
   },
 
-  Root$(root$, pageDidRender$) {
-    return filterByRoute(pageDidRender$, 'root$').merge(root$);
+  //
+  // Render cycle one:
+  // root$ would trigger page render without props and actions
+  //
+  // Render cycle two:
+  // asyncViewDidRender$ would trigger actions and stors to fill the view state
+  //
+  Root$(root$, asyncViewDidRender$) {
+    return filterByRouteName(asyncViewDidRender$, 'root$').merge(root$);
+  },
+
+  InitAsRoot$(landingViewDidRender$) {
+    return landingViewDidRender$.filter(({ viewName }) => viewName == 'todo-list-app');
   }
 
 });
 
-function filterByRoute(stream, routeName) {
+function filterByRouteName(stream, routeName) {
   return stream.filter(({ route }) => route.name == routeName).map(R.prop('route'));
 }

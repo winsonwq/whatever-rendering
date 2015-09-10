@@ -4,17 +4,26 @@ import RR from 'reactive-react';
 import { noErrCallbackPromisify } from '../utils/promisify';
 import RouterStore from '../stores/router.store';
 
-const pageDidRender$ = RR.Observable.bind('pageDidRender$');
+//
+// Async view is the view load in future
+const asyncViewDidRender$ = RR.Observable.bind('asyncViewDidRender$');
+
+//
+// Landing view is the landing page view, which is with props
+const landingViewDidRender$ = RR.Observable.bind('landingViewDidRender$');
 
 class Page extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      view: props.defaultView,
-      props: props.defaultProps,
-      loadedViews: [props.defaultViewName]
-    };
+  constructor(properties) {
+    super(properties);
+
+    var view = properties.defaultView;
+    var props = properties.defaultProps;
+    var currentViewName = properties.defaultViewName;
+
+    this.state = { view, props, loadedViews: [currentViewName], currentViewName };
+
+    landingViewDidRender$({ view, props, viewName: currentViewName });
   }
 
   componentDidMount() {
@@ -22,18 +31,18 @@ class Page extends React.Component {
   }
 
   routeChange(route) {
-    var { viewName, props } = route;
+    var { viewName } = route;
     var { currentViewName, loadedViews } = this.state;
 
     if (viewName && currentViewName != viewName) {
       this.loadView(viewName).then(function(view) {
-        this.setState({ view, props, currentViewName: viewName });
+        this.setState({ view, currentViewName: viewName });
         /*
           TODO: find one time render solution
           trigger the second render cycle to reuse action logic when the compoent first load
         */
         if (loadedViews.indexOf(viewName) == -1) {
-          pageDidRender$({ view, props, route });
+          asyncViewDidRender$({ view, route });
           this.setState({ loadedViews: loadedViews.concat([viewName]) });
         }
 
