@@ -17,6 +17,9 @@ class TodoListApp extends React.Component {
     this.setState({
       todoDisposable: TodoListStore.todos$.subscribe(this.todosChange.bind(this))
     });
+
+    var input = this.refs.taskTextInput.getDOMNode();
+    input.focus();
   }
 
   componentWillUnmount() {
@@ -44,16 +47,20 @@ class TodoListApp extends React.Component {
     });
 
     return (
-      <div>
-        <h1>TODO</h1>
-        <ul>
-          { todoItems }
-        </ul>
-        <form onSubmit={ this.handleSubmit.bind(this) }>
-          <input type="text" onChange={ this.handleTextChange.bind(this) } value={ this.state.text }/>
-          <button>{'Add #' + (this.state.todos.length + 1)}</button>
-        </form>
-        <Link path="/readme">Readme</Link>
+      <div className="todo-list-app">
+        <h1>todos</h1>
+        <div className="app-container">
+          <form onSubmit={ this.handleSubmit.bind(this) }>
+            <input placeholder="What needs to be done?" ref="taskTextInput" type="text" onChange={ this.handleTextChange.bind(this) } value={ this.state.text }/>
+            <button>{'Add #' + (this.state.todos.length + 1)}</button>
+          </form>
+          <ul>
+            { todoItems }
+          </ul>
+        </div>
+        <p className="bottom-bar">
+          <Link path="/readme">about whatever-rendering &raquo;</Link>
+        </p>
       </div>
     );
   }
