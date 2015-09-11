@@ -1,5 +1,5 @@
 {
-  "name": "try_isomorephic",
+  "name": "whatever-rendering",
   "version": "1.0.0",
   "description": "what a isomorephic look like",
   "main": "index.js",
@@ -7,6 +7,10 @@
     "dev": "./scripts/dev.sh",
     "pbundle": "./scripts/partition-bundle.sh",
     "wbundle": "./scripts/partition-bundle-watch.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/winsonwq/whatever-rendering.git"
   },
   "keywords": [],
   "author": "Wang Qiu <winsonwq@gmail.com> (http://slender-man.github.io/)",
