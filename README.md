@@ -23,9 +23,10 @@ If you do page jump
 ↓ Load page resources if not loaded
 ↓ Client router change
 ↓ Client render
-```
 
-### Client rendering cycle
+Client rendering cycle
+
+```
 
 Both of renderings share same React components, and business actions. The data/work flow is showing below:
 
