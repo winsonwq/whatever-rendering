@@ -46,5 +46,13 @@ The data flow from routes to actions in both ways could follow the same reactive
 
 For more information, please clone down and run.
 
+```
+npm i -d
+npm run build
+PORT=9001 node bin/www
+open http://localhost:9001
+// have fun
+```
+
 ## Todos
 * preboot module

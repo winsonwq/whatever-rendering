@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "./scripts/dev.sh",
+    "build": "./scripts/build.sh",
     "pbundle": "./scripts/partition-bundle.sh",
     "wbundle": "./scripts/partition-bundle-watch.sh"
   },
