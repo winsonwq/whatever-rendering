@@ -14,7 +14,7 @@ class Link extends React.Component {
   render() {
     var { className, path, children } = this.props;
     return (
-      <a onClick={ this.handleLinkRedirect.bind(this) } path={ path } className={ className }>
+      <a onClick={ this.handleLinkRedirect.bind(this) } path={ path } className={ className } href={ path }>
         { children }
       </a>
     );
