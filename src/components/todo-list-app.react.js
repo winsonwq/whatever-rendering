@@ -2,7 +2,7 @@ import React from 'react';
 import RR from 'reactive-react';
 import Link from './link.react';
 
-import TodoListStore from '../stores/todo-list.store';
+import { todos$ } from '../stores/todo-list.store';
 
 const submitTodo$ = RR.Observable.bind('submitTodo$');
 
@@ -15,7 +15,7 @@ class TodoListApp extends React.Component {
 
   componentDidMount() {
     this.setState({
-      todoDisposable: TodoListStore.todos$.subscribe(this.todosChange.bind(this))
+      todoDisposable: todos$.subscribe(this.todosChange.bind(this))
     });
 
     var input = this.refs.taskTextInput.getDOMNode();

@@ -1,39 +1,21 @@
-import RR from 'reactive-react';
 import Rx from 'rx';
+import R from 'ramda';
+import { fillTodos$, todoAddedSuccessBody$ } from '../actions';
+import toReducer from '../utils/to-reducer';
 
-import Action from '../actions/';
+const resetTodos$ = fillTodos$
+  .map(toReducer(function(sofar, todos) {
+    return R.merge(sofar, { todos });
+  }));
 
-export default RR.Observable.createStore(
-  Action, ['fillTodos$', 'todoAddedSuccessBody$'],
-  function(fillTodos$, todoAddedSuccessBody$) {
+const addTodo$ = todoAddedSuccessBody$
+  .map(toReducer(function(sofar, todo) {
+    return R.merge(sofar, { todos: sofar.todos.concat([todo]) });
+  }));
 
-    var data = { todos: [] };
-
-    var resetTodos$ = fillTodos$
-      .map(function(todos) {
-        return function(sofar) {
-          sofar.todos = todos;
-          return sofar;
-        };
-      });
-
-    var addTodo$ = todoAddedSuccessBody$
-      .map(function(todo) {
-        return function(sofar) {
-          sofar.todos = sofar.todos.concat([todo]);
-          return sofar;
-        };
-      });
-
-    var todos$ = Rx.Observable
-      .merge(
-        resetTodos$,
-        addTodo$
-      ).scan(function(sofar, transform) {
-        return transform(sofar);
-      }, data);
-
-    return { todos$ };
-
-  }
-);
+export const todos$ = Rx.Observable
+  .merge(
+    resetTodos$,
+    addTodo$
+  )
+  .scan((sofar, reducer) => reducer(sofar), { todos: [] });

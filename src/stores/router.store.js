@@ -1,12 +1,3 @@
-import RR from 'reactive-react';
+import { route$ } from '../actions/router.action';
 
-import RouterAction from '../actions/router.action';
-
-export default RR.Observable.createStore(
-  RouterAction, ['route$'],
-  function(route$) {
-
-    return { route$ };
-    
-  }
-);
+export default { route$ };

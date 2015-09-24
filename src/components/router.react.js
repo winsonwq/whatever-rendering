@@ -6,7 +6,7 @@ import Rx from 'rx';
 
 import routes from '../routes/routes-config';
 
-import RouterStore from '../stores/router.store';
+import { route$ } from '../stores/router.store';
 
 import Browser from '../utils/browser';
 
@@ -20,7 +20,7 @@ class Router extends React.Component {
   }
 
   componentDidMount() {
-    RouterStore.route$.subscribe(this.routeChange.bind(this));
+    route$.subscribe(this.routeChange.bind(this));
 
     // only get method need to be registered
     routes
