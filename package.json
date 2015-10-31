@@ -47,7 +47,7 @@
     "nib": "^1.1.0",
     "nodemon": "^1.4.1",
     "normalize.css": "^3.0.3",
-    "partition-bundle": "^2.2.0",
+    "partition-bundle": "winsonwq/partition-bundle",
     "sqwish": "^0.2.2",
     "stylus": "^0.52.4",
     "uglify-js": "^2.4.24",
