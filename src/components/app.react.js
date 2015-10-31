@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Router from './router.react';
+import {} from './router/router';
 import Page from './page.react';
 
 class App extends React.Component {
@@ -13,10 +13,7 @@ class App extends React.Component {
     var { view, props, viewName } = this.props;
 
     return (
-      <div>
-        <Router />
-        <Page defaultViewName={ viewName } defaultView={ view } defaultProps={ props }/>
-      </div>
+      <Page defaultViewName={ viewName } defaultView={ view } defaultProps={ props }/>
     );
   }
 

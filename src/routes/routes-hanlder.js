@@ -23,3 +23,10 @@ routes.readme$
     var sView = view(Readme);
     res.render('index', sView);
   });
+
+routes.activity$
+  .subscribe(function(route) {
+    var { res } = route;
+    var sView = view(Readme);
+    res.render('index', sView);
+  });
