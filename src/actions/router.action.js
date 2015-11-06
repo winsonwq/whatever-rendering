@@ -21,7 +21,10 @@ export default RR.Observable.createAction({
   // asyncViewDidRender$ would trigger actions and stors to fill the view state
   //
   Root$(root$, asyncViewDidRender$) {
-    return asyncViewDidRender$.filter(byRouteNameWhen('root$')).merge(root$);
+    return asyncViewDidRender$
+      .filter(byRouteNameWhen('root$'))
+      .map(R.prop('route'))
+      .merge(root$);
   },
 
   InitAsRoot$(landingViewDidRender$) {
