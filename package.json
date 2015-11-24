@@ -4,6 +4,7 @@
   "description": "what a isomorephic look like",
   "main": "index.js",
   "scripts": {
+    "dev-server": "nodemon --debug bin/www",
     "dev": "./scripts/dev.sh",
     "build": "./scripts/build.sh",
     "pbundle": "./scripts/partition-bundle.sh",

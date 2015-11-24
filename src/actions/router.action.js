@@ -1,5 +1,6 @@
 import RR from 'reactive-react';
 import Rx from 'rx';
+import R from 'ramda';
 
 import routes from '../routes/routes-config';
 

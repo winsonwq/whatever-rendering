@@ -1,5 +1,7 @@
 import React from 'react';
+import R from 'ramda';
 import RR from 'reactive-react';
+import cx from 'classnames';
 
 import { noErrCallbackPromisify } from '../utils/promisify';
 import RouterStore from '../stores/router.store';
@@ -17,11 +19,18 @@ class Page extends React.Component {
   constructor(properties) {
     super(properties);
 
-    var view = properties.defaultView;
-    var props = properties.defaultProps;
-    var currentViewName = properties.defaultViewName;
+    const view = properties.defaultView;
+    const props = properties.defaultProps;
+    const currentViewName = properties.defaultViewName;
+    const page = React.createFactory(view)(props);
 
-    this.state = { view, props, loadedViews: [currentViewName], currentViewName };
+    this.state = {
+      view,
+      props,
+      loadedViews: [currentViewName],
+      currentViewName,
+      pages: [{ viewName: currentViewName, page }]
+    };
 
     landingViewDidRender$({ view, props, viewName: currentViewName });
   }
@@ -31,19 +40,32 @@ class Page extends React.Component {
   }
 
   routeChange(route) {
-    var { viewName } = route;
-    var { currentViewName, loadedViews } = this.state;
+    const { viewName } = route;
+    const { currentViewName, loadedViews, props, pages } = this.state;
 
     if (viewName && currentViewName != viewName) {
       this.loadView(viewName).then(function(view) {
-        this.setState({ view, currentViewName: viewName });
+
+        const viewProps = R.merge(props, R.pick(['params', 'query'], route || {}));
+        const page = React.createFactory(view)(viewProps);
+        const newPages = R.any(R.propEq('viewName', viewName), pages) ?
+          pages :
+          pages.concat([R.zipObj(['viewName', 'page'], [viewName, page])]);
+
+        this.setState({
+          view,
+          currentViewName: viewName,
+          route,
+          pages: newPages
+        });
+
         /*
           TODO: find one time render solution
           trigger the second render cycle to reuse action logic when the compoent first load
         */
         if (loadedViews.indexOf(viewName) == -1) {
           asyncViewDidRender$({ view, route });
-          this.setState({ loadedViews: loadedViews.concat([viewName]) });
+          this.setState({ loadedViews: loadedViews.concat([viewName]), route });
         }
 
       }.bind(this));
@@ -54,12 +76,22 @@ class Page extends React.Component {
     return noErrCallbackPromisify(global.loadjs)([viewName]).then(ret => ret[0]);
   }
 
-  render() {
-    var { view, props } = this.state;
+  renderPagesDOM() {
+    const { pages, currentViewName } = this.state;
+    return pages.map(function({ viewName, page }) {
+      let classNames = cx('page-view', { 'current': viewName == currentViewName });
+      return (
+        <div data-page-view-name={ viewName } className={ classNames }>
+          { page }
+        </div>
+      );
+    });
+  }
 
+  render() {
     return (
-      <div>
-        { React.createFactory(view)(props) }
+      <div className="page-views">
+        { this.renderPagesDOM() }
       </div>
     );
   }
