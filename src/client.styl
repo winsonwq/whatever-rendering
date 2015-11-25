@@ -179,26 +179,22 @@ h6 {
   }
 
   &.current-to-after {
+    z-index: 1;
     transform: translate3d(100%, 0, 0);
     animation: current-to-after .5s ease;
   }
 
-  &.after-to-current,
-  &.before-to-current {
-    transform: translate3d(0, 0, 0);
-  }
-
   &.after-to-current {
+    z-index: 1;
+    transform: translate3d(0, 0, 0);
     animation: after-to-current .5s ease;
   }
 
   &.before-to-current {
+    transform: translate3d(0, 0, 0);
     animation: before-to-current .5s ease;
   }
 
-  &.disable-animate {
-    animation: none;
-  }
 }
 
 @keyframes current-to-before {

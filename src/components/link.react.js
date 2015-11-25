@@ -7,8 +7,13 @@ class Link extends React.Component {
 
   handleLinkRedirect(evt) {
     evt.preventDefault();
-    var { path, redirect, replace } = this.props;
-    return linkRedirect$({ path, redirect, replace });
+    const { path, redirect, replace, forword } = this.props;
+    return linkRedirect$({
+      path,
+      redirect,
+      replace,
+      state: { forword: forword == undefined ? true : forword }
+    });
   }
 
   render() {

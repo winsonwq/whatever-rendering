@@ -6,7 +6,7 @@ class Readme extends React.Component {
     return (
       <article className="readme">
         <p>
-          <Link className="back-link" path="/">&laquo; back to todos</Link>
+          <Link className="back-link" path="/" forword={ false }>&laquo; back to todos</Link>
         </p>
         <h1>Whatever-rendering</h1>
         <section>

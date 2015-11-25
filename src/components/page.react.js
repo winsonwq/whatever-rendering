@@ -29,7 +29,7 @@ class Page extends React.Component {
       props: properties,
       loadedViews: [currentViewName],
       currentViewName,
-      pages: [{ viewName: currentViewName, page }]
+      newPages: R.zipObj([currentViewName], [page])
     };
 
     landingViewDidRender$({ view, props: properties, viewName: currentViewName });
@@ -41,22 +41,29 @@ class Page extends React.Component {
 
   routeChange(route) {
     const { viewName } = route;
-    const { currentViewName, loadedViews, props, pages } = this.state;
+    const { currentViewName, loadedViews, props, newPages } = this.state;
 
     if (viewName && currentViewName != viewName) {
       this.loadView(viewName).then(function(view) {
 
         const viewProps = R.merge(props, R.pick(['params', 'query'], route || {}));
-        const page = React.createFactory(view)(viewProps);
-        const newPages = R.any(R.propEq('viewName', viewName), pages) ?
-          pages :
-          pages.concat([R.zipObj(['viewName', 'page'], [viewName, page])]);
+        const { forword } = route.state;
+        const targetView = newPages[viewName] ?
+          newPages[viewName] :
+          React.createFactory(view)(viewProps);
 
         this.setState({
           view,
           currentViewName: viewName,
           route,
-          pages: newPages
+          newPages: R.merge(newPages, R.zipObj([viewName], [targetView])),
+
+          animate: {
+            forword,
+            from: currentViewName,
+            to: viewName
+          }
+
         });
 
         /*
@@ -77,18 +84,26 @@ class Page extends React.Component {
   }
 
   renderPagesDOM() {
-    const { pages, currentViewName } = this.state;
-    const currentViewIdx = R.findIndex(R.propEq('viewName', currentViewName), pages);
+    const { newPages, animate } = this.state;
+    const { from, to, forword } = animate || {};
 
-    return pages.map(function({ viewName, page }, idx) {
+    const renderingPages = R.toPairs(newPages);
+
+    return renderingPages.map(function([viewName, page]) {
+      var classNames = 'page-view';
+
+      if (viewName == from) {
+        classNames = cx(classNames, `current-to-${ forword ? 'before' : 'after' }`);
+      } else if (viewName == to){
+        classNames = cx(classNames, `${ forword ? 'after' : 'before' }-to-current`);
+      }
+
       return (
-        <PageShift
-          viewName={ viewName }
-          pos={ idx - currentViewIdx }
-          animate={ pages.length > 1 }>
+        <div data-view-name={ viewName } className={ classNames }>
           { page }
-        </PageShift>
+        </div>
       );
+
     });
   }
 
@@ -100,48 +115,6 @@ class Page extends React.Component {
     );
   }
 
-}
-
-class PageShift extends React.Component {
-
-  static pos2class(pos) {
-    if (pos == 0) return 'current';
-    else if (pos == -1) return 'before';
-    else if (pos == 1) return 'after';
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const oldPos = PageShift.pos2class(this.props.pos);
-    const currPos = PageShift.pos2class(nextProps.pos);
-
-    if (oldPos != currPos) {
-      const transitionClassName = `${oldPos}-to-${currPos}`;
-      this.setState({ transitionClassName });
-    }
-  }
-
-  render() {
-    const { children, viewName, className, pos, animate } = this.props;
-    const { transitionClassName } = this.state;
-    const classNames = cx(
-      className,
-      'page-view',
-      { 'current': pos == 0 },
-      { 'disable-animate': !animate },
-      transitionClassName || 'after-to-current'
-    );
-
-    return (
-      <div data-page-view-name={ viewName } className={ classNames }>
-        { children }
-      </div>
-    );
-  }
 }
 
 export default Page;

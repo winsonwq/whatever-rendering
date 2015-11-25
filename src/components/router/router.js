@@ -42,7 +42,7 @@ const handleLocationChange = R.curry(function(observableRoutes, loc) {
     query: qs.parse(loc.search.slice(1)),
     params: R.merge(R.zipObj(paramNames, params), matchedRoute.viewName),
     action: loc.action,
-    key: loc.key
+    state: loc.state
   });
 });
 
