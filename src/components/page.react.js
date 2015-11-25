@@ -16,23 +16,23 @@ const landingViewDidRender$ = RR.Observable.bind('landingViewDidRender$');
 
 class Page extends React.Component {
 
-  constructor(properties) {
-    super(properties);
+  constructor(props) {
+    super(props);
 
-    const view = properties.defaultView;
-    const props = properties.defaultProps;
-    const currentViewName = properties.defaultViewName;
+    const view = props.defaultView;
+    const properties = props.defaultProps;
+    const currentViewName = props.defaultViewName;
     const page = React.createFactory(view)(props);
 
     this.state = {
       view,
-      props,
+      props: properties,
       loadedViews: [currentViewName],
       currentViewName,
       pages: [{ viewName: currentViewName, page }]
     };
 
-    landingViewDidRender$({ view, props, viewName: currentViewName });
+    landingViewDidRender$({ view, props: properties, viewName: currentViewName });
   }
 
   componentDidMount() {
@@ -78,12 +78,16 @@ class Page extends React.Component {
 
   renderPagesDOM() {
     const { pages, currentViewName } = this.state;
-    return pages.map(function({ viewName, page }) {
-      let classNames = cx('page-view', { 'current': viewName == currentViewName });
+    const currentViewIdx = R.findIndex(R.propEq('viewName', currentViewName), pages);
+
+    return pages.map(function({ viewName, page }, idx) {
       return (
-        <div data-page-view-name={ viewName } className={ classNames }>
+        <PageShift
+          viewName={ viewName }
+          pos={ idx - currentViewIdx }
+          animate={ pages.length > 1 }>
           { page }
-        </div>
+        </PageShift>
       );
     });
   }
@@ -96,6 +100,48 @@ class Page extends React.Component {
     );
   }
 
+}
+
+class PageShift extends React.Component {
+
+  static pos2class(pos) {
+    if (pos == 0) return 'current';
+    else if (pos == -1) return 'before';
+    else if (pos == 1) return 'after';
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const oldPos = PageShift.pos2class(this.props.pos);
+    const currPos = PageShift.pos2class(nextProps.pos);
+
+    if (oldPos != currPos) {
+      const transitionClassName = `${oldPos}-to-${currPos}`;
+      this.setState({ transitionClassName });
+    }
+  }
+
+  render() {
+    const { children, viewName, className, pos, animate } = this.props;
+    const { transitionClassName } = this.state;
+    const classNames = cx(
+      className,
+      'page-view',
+      { 'current': pos == 0 },
+      { 'disable-animate': !animate },
+      transitionClassName || 'after-to-current'
+    );
+
+    return (
+      <div data-page-view-name={ viewName } className={ classNames }>
+        { children }
+      </div>
+    );
+  }
 }
 
 export default Page;

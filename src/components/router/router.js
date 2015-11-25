@@ -62,7 +62,7 @@ if (typeof window !== 'undefined') {
     .filter(({ method }) => method == 'get')
     .map((config) => R.merge(config, { subject$: RR._getObservable(config.name) }));
 
-  const history = window.h = createHistory();
+  const history = createHistory();
   history.listen(handleLocationChange(observableRoutes));
   route$.subscribe(handleRouteChange(history));
 

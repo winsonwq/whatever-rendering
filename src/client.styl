@@ -173,7 +173,55 @@ h6 {
   overflow: auto;
   background: white;
 
-  &.current {
-    z-index: 1;
+  &.current-to-before {
+    transform: translate3d(-20%, 0, 0);
+    animation: current-to-before .5s ease;
   }
+
+  &.current-to-after {
+    transform: translate3d(100%, 0, 0);
+    animation: current-to-after .5s ease;
+  }
+
+  &.after-to-current,
+  &.before-to-current {
+    transform: translate3d(0, 0, 0);
+  }
+
+  &.after-to-current {
+    animation: after-to-current .5s ease;
+  }
+
+  &.before-to-current {
+    animation: before-to-current .5s ease;
+  }
+
+  &.disable-animate {
+    animation: none;
+  }
+}
+
+@keyframes current-to-before {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-20%, 0, 0); }
+}
+
+@keyframes after-to-current {
+  from { transform: translate3d(100%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes before-to-current {
+  from { transform: translate3d(-20%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes current-to-after {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(100%, 0, 0); }
+}
+
+@keyframes fade-in {
+  from { opacity: .5 }
+  to { opacity: 1 }
 }
