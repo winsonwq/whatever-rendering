@@ -164,6 +164,15 @@ h6 {
 
 }
 
+.page-views {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
 .page-view {
   position: absolute;
   top: 0;
@@ -172,6 +181,7 @@ h6 {
   bottom: 0;
   overflow: auto;
   background: white;
+  -webkit-overflow-scrolling: touch;
 
   &.current-to-before {
     transform: translate3d(-20%, 0, 0);

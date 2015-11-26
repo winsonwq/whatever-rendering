@@ -27,6 +27,7 @@
     "es6-promise": "^3.0.2",
     "express": "^4.13.3",
     "express-bunyan-logger": "^1.1.1",
+    "fastclick": "^1.0.6",
     "history": "^1.13.0",
     "qs": "^5.0.0",
     "ramda": "^0.17.1",
