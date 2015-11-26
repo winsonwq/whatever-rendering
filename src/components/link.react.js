@@ -12,7 +12,7 @@ class Link extends React.Component {
       path,
       redirect,
       replace,
-      state: { forword: forword == undefined ? true : forword }
+      state: { forword: forword == undefined || forword }
     });
   }
 
